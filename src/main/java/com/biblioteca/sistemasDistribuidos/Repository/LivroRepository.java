@@ -15,6 +15,5 @@ public interface LivroRepository extends JpaRepository<LivroModel, Long> {
     @Override
     Page<LivroModel> findAll(Pageable pageable);
 
-    @Query("SELECT l FROM LivroModel l ORDER BY l.qtdEmprestado DESC LIMIT 5")
-    List<LivroModel> findTopByQtdEmprestado(Pageable pageable);
+    List<LivroModel> findTop5ByOrderByQtdEmprestadoDesc(Pageable pageable);
 }

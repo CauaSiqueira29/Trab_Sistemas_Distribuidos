@@ -12,6 +12,7 @@ public record EmprestimoGetDto(Long id,
                                LocalDate dataLimite) {
 
     public EmprestimoGetDto(EmprestimoModel emprestimo) {
-        this(emprestimo.getId(), new UsuarioGetDto(emprestimo.getUsuario()), new LivroGetDto(emprestimo.getLivro()), emprestimo.getDataLimite());
+        this(emprestimo.getId(), new UsuarioGetDto(emprestimo.getUsuario()),
+                new LivroGetDto(emprestimo.getLivro()), emprestimo.getDataLimite());
     }
 }

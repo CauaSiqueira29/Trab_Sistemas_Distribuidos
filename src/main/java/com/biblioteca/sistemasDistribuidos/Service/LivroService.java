@@ -51,13 +51,13 @@ public class LivroService {
 
     // Retorna Livro mais emprestado
     public ResponseEntity<?> retornaTop5LivroMaisEmprestado(Pageable pageable){
-        var livros = repository.findTopByQtdEmprestado(pageable);
+        var livros = repository.findTop5ByOrderByQtdEmprestadoDesc(pageable);
 
         if(livros.isEmpty()){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
 
-        return ResponseEntity.status(HttpStatus.OK).body(livros);
+        return ResponseEntity.status(HttpStatus.OK).body(livros.stream().map(LivroGetDto::new));
     }
 
     // Atualiza
