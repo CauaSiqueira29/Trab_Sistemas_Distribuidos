@@ -1,8 +1,8 @@
 package com.biblioteca.sistemasDistribuidos.Controller;
 
-import com.biblioteca.sistemasDistribuidos.Dto.EmprestimoDto.EmprestimoPostDto;
 import com.biblioteca.sistemasDistribuidos.Dto.UsuarioDto.UsuarioPostDto;
 import com.biblioteca.sistemasDistribuidos.Dto.UsuarioDto.UsuarioPutDto;
+import com.biblioteca.sistemasDistribuidos.Enums.Status;
 import com.biblioteca.sistemasDistribuidos.Service.EmprestimoService;
 import com.biblioteca.sistemasDistribuidos.Service.UsuarioService;
 import jakarta.validation.Valid;
@@ -37,6 +37,10 @@ public class UsuarioController {
     public ResponseEntity<?> retornaUsuarioPorId(@PathVariable Long id){
 
         return usuarioService.retornaUsuarioPorId(id);
+    }
+
+    public ResponseEntity<?> retornaUsuarioPorStatus(@PathVariable Status status){
+        return usuarioService.retornaUsuariosPorStatus(status);
     }
 
     @PutMapping("/{id}")

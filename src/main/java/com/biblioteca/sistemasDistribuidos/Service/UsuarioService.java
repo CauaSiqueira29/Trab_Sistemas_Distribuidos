@@ -3,6 +3,7 @@ package com.biblioteca.sistemasDistribuidos.Service;
 import com.biblioteca.sistemasDistribuidos.Dto.UsuarioDto.UsuarioGetDto;
 import com.biblioteca.sistemasDistribuidos.Dto.UsuarioDto.UsuarioPostDto;
 import com.biblioteca.sistemasDistribuidos.Dto.UsuarioDto.UsuarioPutDto;
+import com.biblioteca.sistemasDistribuidos.Enums.Status;
 import com.biblioteca.sistemasDistribuidos.Model.UsuarioModel;
 import com.biblioteca.sistemasDistribuidos.Repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +46,14 @@ public class UsuarioService {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(usuarioRepository.findById(id).map(UsuarioGetDto::new)
                         .orElseThrow(() -> new RuntimeException("Usuario com id: " + id + " não encontrado")));
+    }
+
+    // Retorna usuários com um status específico
+    public ResponseEntity<?> retornaUsuariosPorStatus(Status status){
+        var usuarios = usuarioRepository.findByStatus(status).orElseThrow(() ->
+                new RuntimeException("Usuários com status: " + status + " não encontrado"));
+
+        return ResponseEntity.status(HttpStatus.OK).body(usuarios.stream().map(UsuarioGetDto::new));
     }
 
     // Atualiza
