@@ -4,8 +4,8 @@ public enum Status {
 
     SEM_LIVRO,
 
-    LIVRO_EM_ATRASO,
+    EM_ATRASO,
 
-    COM_LIVRO,
+    COM_LIVRO
 
 }

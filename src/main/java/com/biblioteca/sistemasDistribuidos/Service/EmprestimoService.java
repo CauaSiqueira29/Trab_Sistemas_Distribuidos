@@ -1,9 +1,7 @@
 package com.biblioteca.sistemasDistribuidos.Service;
 
-import com.biblioteca.sistemasDistribuidos.Dto.EmprestimoDto.EmprestimoDeleteDto;
 import com.biblioteca.sistemasDistribuidos.Dto.EmprestimoDto.EmprestimoGetDto;
 import com.biblioteca.sistemasDistribuidos.Dto.EmprestimoDto.EmprestimoPostDto;
-import com.biblioteca.sistemasDistribuidos.Enums.Status;
 import com.biblioteca.sistemasDistribuidos.Model.EmprestimoModel;
 import com.biblioteca.sistemasDistribuidos.Repository.EmprestimoRepository;
 import com.biblioteca.sistemasDistribuidos.Repository.LivroRepository;
@@ -25,6 +23,9 @@ public class EmprestimoService {
 
     @Autowired
     private LivroRepository livroRepository;
+
+    @Autowired
+    private UsuarioService usuarioService;
 
     // Empréstimo de livro
     public ResponseEntity<?> alugaLivro(EmprestimoPostDto data){
@@ -52,7 +53,7 @@ public class EmprestimoService {
         livroRepository.save(livro);
 
         usuario.getEmprestimos().add(emprestimo);
-        usuario.setStatus(Status.COM_LIVRO);
+        usuarioService.verificaStatus(usuario);
         usuario.setMaxEmprestimos(usuario.getMaxEmprestimos() + 1);
         usuarioRepository.save(usuario);
 
@@ -79,8 +80,8 @@ public class EmprestimoService {
         livroRepository.save(livro);
 
         usuario.getEmprestimos().removeIf(e -> e.getId().equals(id));
-        usuario.setStatus(Status.SEM_LIVRO);
         usuario.setMaxEmprestimos(usuario.getMaxEmprestimos() - 1);
+        usuarioService.verificaStatus(usuario);
         usuarioRepository.save(usuario);
 
         emprestimoRepository.deleteById(id);

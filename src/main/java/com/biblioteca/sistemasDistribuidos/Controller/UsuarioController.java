@@ -9,6 +9,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 @RequestMapping("/Usuario")
@@ -22,6 +23,7 @@ public class UsuarioController {
     private EmprestimoService emprestimoService;
 
     @PostMapping("/cadastra")
+    @Transactional
     public ResponseEntity<?> cadastraUsuario(@RequestBody @Valid UsuarioPostDto data){
 
         return usuarioService.cadastraUsuario(data);
@@ -39,17 +41,20 @@ public class UsuarioController {
         return usuarioService.retornaUsuarioPorId(id);
     }
 
-    public ResponseEntity<?> retornaUsuarioPorStatus(@PathVariable Status status){
+    @GetMapping("/status")
+    public ResponseEntity<?> retornaUsuarioPorStatus(@RequestParam Status status){
         return usuarioService.retornaUsuariosPorStatus(status);
     }
 
     @PutMapping("/{id}")
+    @Transactional
     public ResponseEntity<?> atualizaUsuario(@PathVariable Long id, @RequestBody @Valid UsuarioPutDto data){
 
         return usuarioService.atualizaUsuario(id, data);
     }
 
     @DeleteMapping("/{id}")
+    @Transactional
     public ResponseEntity<?> deletaUsuario(@PathVariable Long id){
 
         return usuarioService.deletaUsuario(id);

@@ -13,6 +13,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+
 @Service
 public class UsuarioService {
 
@@ -93,5 +95,21 @@ public class UsuarioService {
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Usuário deletado!");
     }
+
+    public void verificaStatus(UsuarioModel usuario) {
+        boolean possuiAtraso = usuario.getEmprestimos().stream()
+                .anyMatch(emprestimo -> emprestimo.getDataLimite().isBefore(LocalDate.now()));
+
+        if (possuiAtraso) {
+            usuario.setStatus(Status.EM_ATRASO);
+        } else if (usuario.getEmprestimos().isEmpty()) {
+            usuario.setStatus(Status.SEM_LIVRO);
+        } else {
+            usuario.setStatus(Status.COM_LIVRO);
+        }
+
+        usuarioRepository.save(usuario);
+    }
+
 
 }

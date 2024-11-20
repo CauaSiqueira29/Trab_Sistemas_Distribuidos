@@ -7,6 +7,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 @RequestMapping("/Livro")
@@ -17,6 +18,7 @@ public class LivroController {
     private LivroService service;
 
     @PostMapping("/registra")
+    @Transactional
     public ResponseEntity<?> registraLivro(@RequestBody @Valid LivroPostDto data){
         return service.registraLivro(data);
     }
@@ -38,11 +40,13 @@ public class LivroController {
     }
 
     @PutMapping("/{id}")
+    @Transactional
     public ResponseEntity<?> atualizaLivro(@PathVariable Long id, @RequestBody @Valid LivroPutDto data){
         return service.atualizaLivro(data, id);
     }
 
     @DeleteMapping("/{id}")
+    @Transactional
     public ResponseEntity<?> deletaLivro(@PathVariable Long id){
         return service.deletaLivro(id);
     }

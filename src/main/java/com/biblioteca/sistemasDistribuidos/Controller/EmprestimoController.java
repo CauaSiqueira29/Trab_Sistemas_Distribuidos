@@ -6,6 +6,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -16,6 +17,7 @@ public class EmprestimoController {
     private EmprestimoService emprestimoService;
 
     @PostMapping("/aluga")
+    @Transactional
     public ResponseEntity<?> alugaLivro(@RequestBody @Valid EmprestimoPostDto data){
 
         return emprestimoService.alugaLivro(data);
@@ -28,6 +30,7 @@ public class EmprestimoController {
     }
 
     @DeleteMapping("/devolucao/{id}")
+    @Transactional
     public ResponseEntity<?> devolveLivro(@PathVariable Long id){
 
         return emprestimoService.devolucaoDeLivro(id);
